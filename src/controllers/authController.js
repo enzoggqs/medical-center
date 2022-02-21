@@ -81,6 +81,7 @@ authenticationRoute.post('/authenticate/secretary', async(request, response) => 
     const secret = authConfig.secret;
 
     const token = jwt.sign({
+        userType: "secretary",
         id: secretaryAlreadyExist.id,
     },
     secret, {
@@ -110,6 +111,7 @@ authenticationRoute.post('/authenticate/doctor', async(request, response) => {
     const secret = authConfig.secret;
 
     const token = jwt.sign({
+        userType: "doctor",
         id: doctorAlreadyExist.id,
     },
     secret, {
