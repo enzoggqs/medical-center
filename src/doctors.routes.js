@@ -1,45 +1,83 @@
 const express = require("express")
+const authDoctor = require("./middlewares/authDoctor")
 
 const doctorsRoutes = express.Router()
 const { PrismaClient } = require("@prisma/client")
 
 const prisma = new PrismaClient();
 
-// Read
-doctorsRoutes.get("/doctors", async (request, response) => {
-    const doctors = await prisma.doctor.findMany()
-    return response.status(200).json(doctors);
+// Create appointment
+doctorsRoutes.post("/doctor/appointment", authDoctor, async (request, response) => {
+    if(request.userType != 'doctor')
+        return response.status(400).json("Permission denied")
+    
+    console.log(request.userId)
+
+    const {patientName, date} = request.body;
+    const doctorId = request.userId;
+
+    const appointment = await prisma.appointment.create({
+        data: {
+            doctorId, patientName, date
+        },
+    });
+    return response.status(201).json({appointment: appointment, user: request.userId})
+});
+
+// Read appointments
+doctorsRoutes.get("/doctor/appointments", authDoctor, async (request, response) => {
+    if(request.userType != 'doctor')
+        return response.status(400).json("Permission denied")
+    const appointment = await prisma.appointment.findMany(
+        {
+            orderBy: {
+                date: 'asc'
+            },
+            where: {
+                doctorId: request.userId
+            }
+        }
+    )
+    return response.status(200).json(appointment);
 })
 
-// Update
-doctorsRoutes.put("/doctors", async (request, response) => {
-    const {name, id} = request.body
+// Update appointment
+doctorsRoutes.put("/doctor/appointment", authDoctor, async (request, response) => {
+    if(request.userType != 'doctor')
+        return response.status(400).json("Permission denied")
+    const {date, patientName, id} = request.body
 
     if(!id){
         return response.status(400).json("Id is mandatory")
     }
 
-    const doctorAlreadyExist = await prisma.doctor.findUnique({ where: { id }});
+    const appointmentAlreadyExist = await prisma.appointment.findUnique({ where: { id }});
 
-    if(!doctorAlreadyExist) {
-        return response.status(404).json("Doctor not exists")
+    if(!appointmentAlreadyExist) {
+        return response.status(404).json("Appointment not exists")
     }
 
-    const doctor = await prisma.doctor.update({
+    if(appointmentAlreadyExist.doctorId != request.userId){
+        return response.status(400).json("Post does not belong to the doctor")
+    }
+
+    const appointment = await prisma.appointment.update({
         where: {
             id,
         },
         data: {
-            name,
+            date,
+            patientName
         }
     })
 
-    return response.status(200).json(doctor)
+    return response.status(200).json(appointment)
 })
 
-// Delete
-
-doctorsRoutes.delete("/doctor/:id", async  (request, response) => {
+// Delete appointment
+doctorsRoutes.delete("/doctor/appointment/:id", authDoctor, async  (request, response) => {
+    if(request.userType != 'doctor')
+        return response.status(400).json("Permission denied")
     const {id} = request.params;
     const intId = parseInt(id);
 
@@ -47,13 +85,12 @@ doctorsRoutes.delete("/doctor/:id", async  (request, response) => {
         return response.status(400).json("Id is mandatory")
     }
 
-    const doctorAlreadyExist = await prisma.doctor.findUnique({ where: { id: intId }});
-
-    if(!doctorAlreadyExist) {
-        return response.status(404).json("Doctor not exists")
+    const appointmentAlreadyExist = await prisma.appointment.findUnique({ where: { id: intId }});
+    if(!appointmentAlreadyExist) {
+        return response.status(404).json("Appointment not exists")
     }
 
-    await prisma.doctor.delete({ where: { id: intId }});
+    await prisma.appointment.delete({ where: { id: intId }});
     return response.status(200).send();
 });
 
