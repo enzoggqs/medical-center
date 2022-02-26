@@ -28,5 +28,5 @@ model Appointment {
   id Int @id @default(autoincrement())
   date DateTime   @default(now())
   patientName String @default("Paciente123")
-  doctor Doctor @relation(fields: [doctorId], references: [id])
+  doctor Doctor @relation(fields: [doctorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
