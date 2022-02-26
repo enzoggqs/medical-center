@@ -149,13 +149,19 @@ secretaryRoutes.post(
   async (request, response) => {
     if (request.userType != "secretary")
       return response.status(400).json("Permission denied");
-    const { doctorId, patientName, date } = request.body;
+    const { patientName, date } = request.body;
+
+    const doctorId = parseInt(request.body.doctorId);
 
     const appointment = await prisma.appointment.create({
       data: {
-        doctorId,
         patientName,
         date,
+        doctor: {
+          connect: {
+            id: doctorId,
+          },
+        },
       },
     });
     return response
@@ -212,6 +218,32 @@ secretaryRoutes.put(
     });
 
     return response.status(200).json(appointment);
+  }
+);
+
+// Delete appointment
+secretaryRoutes.delete(
+  "/secretary/appointment/:id",
+  authSecretary,
+  async (request, response) => {
+    if (request.userType != "secretary")
+      return response.status(400).json("Permission denied");
+    const { id } = request.params;
+    const intId = parseInt(id);
+
+    if (!intId) {
+      return response.status(400).json("Id is mandatory");
+    }
+
+    const appointmentAlreadyExist = await prisma.appointment.findUnique({
+      where: { id: intId },
+    });
+    if (!appointmentAlreadyExist) {
+      return response.status(404).json("Appointment not exists");
+    }
+
+    await prisma.appointment.delete({ where: { id: intId } });
+    return response.status(200).send();
   }
 );
 
