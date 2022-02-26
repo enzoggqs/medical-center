@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { api, createSecretarySession } from '../services/api';
+import { api, createSecretarySession, createDoctorSession } from '../services/api';
 
 export const AuthContext = createContext();
 
@@ -27,6 +27,7 @@ export const AuthProvider = ({children}) => {
         const response = await createSecretarySession(email, password);
 
         const loggedUser = response.data.secretaryAlreadyExist;
+        console.log(loggedUser);
         const token = response.data.token
 
         localStorage.setItem('user', JSON.stringify(loggedUser));
@@ -38,8 +39,20 @@ export const AuthProvider = ({children}) => {
         navigate("/")
     }
 
-    const doctorLogin = (email) => {
-        setUser({ id: '123', email })
+    const doctorLogin = async (email) => {
+        const response = await createDoctorSession(email);
+
+        const loggedUser = response.data.doctorAlreadyExist;
+        console.log(loggedUser)
+        const token = response.data.token
+
+        localStorage.setItem('user', JSON.stringify(loggedUser));
+        localStorage.setItem('token', token);
+
+        api.defaults.headers.Authorization = `Bearer ${token}`;
+
+        setUser(loggedUser)
+        navigate("/")
     }
 
     const logout = () => {
