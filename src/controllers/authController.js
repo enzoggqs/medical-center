@@ -44,6 +44,8 @@ authenticationRoute.post(
   authSecretary,
   async (request, response) => {
     const { name, email } = request.body;
+    if (request.userType != "secretary")
+      return response.status(400).json("Permission denied");
 
     const secretaryAlreadyExist = await prisma.secretary.findUnique({
       where: { email },
@@ -108,6 +110,7 @@ authenticationRoute.post(
     secretaryAlreadyExist = {
       id: secretaryAlreadyExist.id,
       email: secretaryAlreadyExist.email,
+      userType: 2,
     };
 
     return response.status(200).send({
@@ -123,7 +126,7 @@ authenticationRoute.post("/authenticate/doctor", async (request, response) => {
 
   if (!email) return response.status(400).send("Email field not filled");
 
-  const doctorAlreadyExist = await prisma.doctor.findUnique({
+  var doctorAlreadyExist = await prisma.doctor.findUnique({
     where: { email },
   });
 
@@ -143,6 +146,11 @@ authenticationRoute.post("/authenticate/doctor", async (request, response) => {
       expiresIn: 86400,
     }
   );
+
+  doctorAlreadyExist = {
+    ...doctorAlreadyExist,
+    userType: 1,
+  };
 
   return response.status(200).send({
     doctorAlreadyExist,
