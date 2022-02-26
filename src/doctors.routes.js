@@ -19,9 +19,13 @@ doctorsRoutes.post(
 
     const appointment = await prisma.appointment.create({
       data: {
-        doctorId,
         patientName,
         date,
+        doctor: {
+          connect: {
+            id: doctorId,
+          },
+        },
       },
     });
     return response
@@ -37,6 +41,7 @@ doctorsRoutes.get(
   async (request, response) => {
     if (request.userType != "doctor")
       return response.status(400).json("Permission denied");
+
     const appointment = await prisma.appointment.findMany({
       orderBy: {
         date: "asc",
@@ -105,8 +110,15 @@ doctorsRoutes.delete(
     const appointmentAlreadyExist = await prisma.appointment.findUnique({
       where: { id: intId },
     });
+
+    console.log(appointmentAlreadyExist);
+
     if (!appointmentAlreadyExist) {
       return response.status(404).json("Appointment not exists");
+    }
+
+    if (appointmentAlreadyExist.doctorId != request.userId) {
+      return response.status(400).json("Post does not belong to the doctor");
     }
 
     await prisma.appointment.delete({ where: { id: intId } });
