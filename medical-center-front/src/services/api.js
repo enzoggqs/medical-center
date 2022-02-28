@@ -54,3 +54,29 @@ export const secretaryDeleteAppointment = async (id) => {
   console.log(id);
   return api.delete(`/secretary/appointment/${id}`);
 };
+
+export const getDoctorAppointments = async () => {
+  return api.get("/doctor/appointments");
+};
+
+export const doctorCreateAppointment = async (id, patientName, date) => {
+  console.log(id, patientName, date);
+  if (date === 0) {
+    return api.post("doctor/appointment", { id, patientName });
+  } else {
+    return api.post("doctor/appointment", { id, patientName, date });
+  }
+};
+
+export const doctorEditAppointment = async (date, patientName, id) => {
+  console.log("entrou aqui", patientName, id);
+  if (date === 0) {
+    return api.put("/doctor/appointment", { patientName, id });
+  }
+  return api.put("/doctor/appointment", { date, patientName, id });
+};
+
+export const doctorDeleteAppointment = async (id) => {
+  console.log(id);
+  return api.delete(`/doctor/appointment/${id}`);
+};
