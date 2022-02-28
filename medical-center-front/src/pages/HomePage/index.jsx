@@ -147,11 +147,13 @@ const HomePage = () => {
 
       await deleteDoctor(doctorToChange);
 
-      const allDoctors = await getDoctors();
-      setDoctors(allDoctors.data.doctors);
-
       const allAppointments =  await getSecretaryAppointments();
-      setAppointments(allAppointments.data);
+      await setAppointments(allAppointments.data);
+
+      const allDoctors = await getDoctors();
+      await setDoctors(allDoctors.data.doctors);
+
+      console.log(appointments)
 
       await setDoctorToChange(null)
       await setShowDoctorToChangeFields(false);
@@ -204,10 +206,16 @@ const HomePage = () => {
     const handleSecretaryDeleteAppointment = async (e) => {
       e.preventDefault();
 
-      await secretaryDeleteAppointment(appointmentToChange);
+      if(user.userType == 2){
+        await secretaryDeleteAppointment(appointmentToChange);
+        var allAppointments =  await getSecretaryAppointments();
+      } else {
+        await doctorDeleteAppointment(appointmentToChange);
+        var allAppointments =  await getDoctorAppointments();
+      }
 
-      const allAppointments =  await getSecretaryAppointments();
       setAppointments(allAppointments.data);
+    
 
       await setAppointmentToChange(null)
       await setAppointmentToChangeDate(null)
@@ -219,7 +227,7 @@ const HomePage = () => {
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
-          <div className="flex w-full flex-1 flex-col items-center justify-center text-center">
+          <div className="flex w-full flex-1 flex-col items-center text-center">
             <Header />
             {user.userType == 2 ? (
               <>
@@ -284,7 +292,7 @@ const HomePage = () => {
                 :
               (
                 <>
-                  <div className="bg-white flex w-full mb-auto">
+                  <div className="bg-white flex w-full">
                     <FormDoctorCreateAppointment 
                       handleCreateAppointment={handleCreateAppointment}
                       setAppointmentPatient={setAppointmentPatient}
