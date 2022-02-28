@@ -15,6 +15,7 @@ model Doctor{
   email   String   @unique
   name String
   appointments Appointment[]
+  password String @default("Paciente123")
 }
 
 model Secretary{

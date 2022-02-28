@@ -14,6 +14,7 @@ doctorsRoutes.post(
     if (request.userType != "doctor")
       return response.status(400).json("Permission denied");
 
+    console.log(request.body);
     const { patientName, date } = request.body;
     const doctorId = request.userId;
 
