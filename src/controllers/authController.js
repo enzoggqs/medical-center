@@ -43,9 +43,15 @@ authenticationRoute.post(
   "/doctors",
   authSecretary,
   async (request, response) => {
-    const { name, email } = request.body;
+    const { name, email, password } = request.body;
     if (request.userType != "secretary")
       return response.status(400).json("Permission denied");
+
+    console.log(request.body);
+
+    if (!name || !email || !password) {
+      return response.status(400).json("Fill all the fields!");
+    }
 
     const secretaryAlreadyExist = await prisma.secretary.findUnique({
       where: { email },
@@ -62,8 +68,11 @@ authenticationRoute.post(
       data: {
         name,
         email,
+        password,
       },
     });
+
+    doctor.password = undefined;
 
     return response.status(201).send({
       doctor,
@@ -122,9 +131,11 @@ authenticationRoute.post(
 
 // Doctor Login
 authenticationRoute.post("/authenticate/doctor", async (request, response) => {
-  const { email } = request.body;
+  const { email, password } = request.body;
 
   if (!email) return response.status(400).send("Email field not filled");
+
+  if (!password) return response.status(400).send("Password field not filled");
 
   var doctorAlreadyExist = await prisma.doctor.findUnique({
     where: { email },
@@ -132,6 +143,10 @@ authenticationRoute.post("/authenticate/doctor", async (request, response) => {
 
   if (!doctorAlreadyExist) {
     return response.status(404).json("Doctor not found");
+  }
+
+  if (doctorAlreadyExist.password != password) {
+    return response.status(400).send({ error: "Invalid password" });
   }
 
   const secret = authConfig.secret;

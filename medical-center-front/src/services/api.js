@@ -8,8 +8,8 @@ export const createSecretarySession = async (email, password) => {
   return api.post("/authenticate/secretary", { email, password });
 };
 
-export const createDoctorSession = async (email) => {
-  return api.post("/authenticate/doctor", { email });
+export const createDoctorSession = async (email, password) => {
+  return api.post("/authenticate/doctor", { email, password });
 };
 
 export const getDoctors = async () => {
