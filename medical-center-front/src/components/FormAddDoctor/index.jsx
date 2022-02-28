@@ -11,7 +11,7 @@ const FormAddDoctor = ({
     return(
         <form onSubmit={handleCreateDoctor} className="w-1/2 p-5">
             <h2 className="font-bold">Menu Doutor</h2>
-            <div className="py-10">
+            <div className="py-10 mb-20">
                 <div className="py-10">
                     <h2 className="text-3xl font-bold text-red-400 mb-2">Cadastrar Doutor</h2>
                     <div className="border-2 w-20 border-red-400 inline-block"></div>

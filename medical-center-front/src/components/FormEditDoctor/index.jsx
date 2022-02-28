@@ -9,7 +9,7 @@ const FormEditDoctor = ({
     handleDeleteDoctor
 }) => {
     return(
-        <div className="w-1/2 py-5 px-28">
+        <div className="w-1/2 py-5 px-28 mb-10">
             <div className="py-5">
             <div className="py-5">
                 <h2 className="text-3xl font-bold text-red-400 mb-2">Editar/Excluir Doutor</h2>
