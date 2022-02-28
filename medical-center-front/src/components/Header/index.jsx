@@ -16,7 +16,7 @@ const Header = () => {
         {
             setUserType('Doutor')
         }
-        console.log(user.userYype, userType)
+        console.log(user.userType, userType)
     }, [user])
 
     const handleLogout = () => {
@@ -32,18 +32,20 @@ const Header = () => {
             <span className="text-red-400">Página </span>{userType}
             </div>
             <button 
-                className="ml-auto border-2 
+                className="ml-auto border-2
                     bg-white 
-                    border-red-400 
-                    text-red-400 
+                    border-red-500
+                    text-red-500
                     rounded-full 
                     px-12 py-2 
                     inline-block 
                     font-semibold 
-                    mr-6" 
+                    mr-6
+                    hover:bg-red-500 
+                    hover:text-white" 
                 onClick={handleLogout}
             >
-                Logout
+                Sair
             </button>
         </div>
     )
