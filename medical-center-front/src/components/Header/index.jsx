@@ -24,7 +24,7 @@ const Header = () => {
     }
     
     return(
-        <div className="my-3 flex w-full">
+        <div className="my-3 flex w-full h-12">
             <div className="ml-6 mr-auto text-left font-bold w-1/3">
             <span className="text-red-400">Medical</span>Center
             </div>
@@ -42,7 +42,8 @@ const Header = () => {
                     font-semibold 
                     mr-6
                     hover:bg-red-500 
-                    hover:text-white" 
+                    hover:text-white
+                    h-12" 
                 onClick={handleLogout}
             >
                 Sair
