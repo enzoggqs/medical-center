@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import AppointmentsTable from "../../components/AppointmentsTable";
+import DoctorAppointmentsTable from "../../components/DoctorAppointmentsTable";
 import DoctorsList from "../../components/DoctorsList";
 import FormAddDoctor from "../../components/FormAddDoctor";
 import FormDoctorCreateAppointment from "../../components/FormDoctorCreateAppointment";
@@ -278,28 +279,35 @@ const HomePage = () => {
               )
                 :
               (
-                <div className="bg-white flex w-full mb-auto">
-                  <FormDoctorCreateAppointment 
-                    handleCreateAppointment={handleCreateAppointment}
-                    setAppointmentPatient={setAppointmentPatient}
-                    appointmentPatient={appointmentPatient}
-                    setAppointmentDate={setAppointmentDate}
-                    appointmentDate={appointmentDate}
-                  />
-                  <FormDoctorEditAppointment 
+                <>
+                  <div className="bg-white flex w-full mb-auto">
+                    <FormDoctorCreateAppointment 
+                      handleCreateAppointment={handleCreateAppointment}
+                      setAppointmentPatient={setAppointmentPatient}
+                      appointmentPatient={appointmentPatient}
+                      setAppointmentDate={setAppointmentDate}
+                      appointmentDate={appointmentDate}
+                    />
+                    <FormDoctorEditAppointment 
+                      appointments={appointments}
+                      appointmentToChange={appointmentToChange}
+                      appointmentToChangeDate={appointmentToChangeDate}
+                      appointmentsForDate={appointmentsForDate}
+                      setAppointmentToChange={setAppointmentToChange}
+                      setAppointmentToChangeDate={setAppointmentToChangeDate}
+                      handleEditAppointment={handleEditAppointment}
+                      appointmentNewPatient={appointmentNewPatient}
+                      setAppointmentNewPatient={setAppointmentNewPatient}
+                      setAppointmentNewDate={setAppointmentNewDate}
+                      handleSecretaryDeleteAppointment={handleSecretaryDeleteAppointment}
+                    />
+                    
+                  </div>
+                  <DoctorAppointmentsTable
+                    doctors={doctors}
                     appointments={appointments}
-                    appointmentToChange={appointmentToChange}
-                    appointmentToChangeDate={appointmentToChangeDate}
-                    appointmentsForDate={appointmentsForDate}
-                    setAppointmentToChange={setAppointmentToChange}
-                    setAppointmentToChangeDate={setAppointmentToChangeDate}
-                    handleEditAppointment={handleEditAppointment}
-                    appointmentNewPatient={appointmentNewPatient}
-                    setAppointmentNewPatient={setAppointmentNewPatient}
-                    setAppointmentNewDate={setAppointmentNewDate}
-                    handleSecretaryDeleteAppointment={handleSecretaryDeleteAppointment}
                   />
-                </div>
+                </>
               )
             }
           </div>
