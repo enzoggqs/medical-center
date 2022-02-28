@@ -20,8 +20,8 @@ export const getSecretaryAppointments = async () => {
   return api.get("/secretary/appointments");
 };
 
-export const createDoctor = async (name, email) => {
-  return api.post("/doctors", { name, email });
+export const createDoctor = async (name, email, password) => {
+  return api.post("/doctors", { name, email, password });
 };
 
 export const secretaryCreateAppointment = async (

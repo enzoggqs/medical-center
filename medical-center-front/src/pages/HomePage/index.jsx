@@ -36,6 +36,7 @@ const HomePage = () => {
 
     const [doctorToCreateName, setDoctorToCreateName] = useState('');
     const [doctorToCreateEmail, setDoctorToCreateEmail] = useState('');
+    const [doctorToCreatePassword, setDoctorToCreatePassword] = useState('');
 
     const [appointmentPatient, setAppointmentPatient] = useState('');
     const [appointmentDoctor, setAppointmentDoctor] = useState('');
@@ -105,11 +106,12 @@ const HomePage = () => {
     const handleCreateDoctor = async (e) => {
         e.preventDefault();
 
-        await createDoctor(doctorToCreateName, doctorToCreateEmail)
+        await createDoctor(doctorToCreateName, doctorToCreateEmail, doctorToCreatePassword)
         const allDoctors = await getDoctors();
         await setDoctors(allDoctors.data.doctors);
         await setDoctorToCreateName('');
         await setDoctorToCreateEmail('')
+        await setDoctorToCreatePassword('');
     }
 
     const handleCreateAppointment = async (e) => {
@@ -228,6 +230,8 @@ const HomePage = () => {
                     doctorToCreateName={doctorToCreateName} 
                     doctorToCreateEmail={doctorToCreateEmail}
                     handleCreateDoctor={handleCreateDoctor}
+                    doctorToCreatePassword={doctorToCreatePassword}
+                    setDoctorToCreatePassword={setDoctorToCreatePassword}
                   />
                   <FormSecretaryCreateAppointment
                     setAppointmentDoctor={setAppointmentDoctor}

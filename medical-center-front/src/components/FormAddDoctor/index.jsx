@@ -3,7 +3,10 @@ const FormAddDoctor = ({
     doctorToCreateName, 
     setDoctorToCreateEmail, 
     setDoctorToCreateName, 
-    handleCreateDoctor}) => 
+    handleCreateDoctor,
+    doctorToCreatePassword,
+    setDoctorToCreatePassword
+}) => 
     {
     return(
         <form onSubmit={handleCreateDoctor} className="w-1/2 p-5">
@@ -25,7 +28,7 @@ const FormAddDoctor = ({
                             required
                         ></input>
                     </div>
-                    <div className="rounded-full rounded-full border-2 bg-gray-100 mx-auto 2xl:w-1/2 md:w-64 p-2 flex items-center mb-6">
+                    <div className="rounded-full rounded-full border-2 bg-gray-100 mx-auto 2xl:w-1/2 md:w-64 p-2 flex items-center mb-4">
                         <input
                         type="email" 
                         name="doctorEmail" 
@@ -33,6 +36,17 @@ const FormAddDoctor = ({
                         className="pl-2 bg-gray-100 outline-none flex-1"
                         value={doctorToCreateEmail}
                         onChange={e => setDoctorToCreateEmail(e.target.value)}
+                        required
+                        ></input>
+                    </div>
+                    <div className="rounded-full rounded-full border-2 bg-gray-100 mx-auto 2xl:w-1/2 md:w-64 p-2 flex items-center mb-6">
+                        <input
+                        type="password" 
+                        name="doctorPassword" 
+                        placeholder="Senha" 
+                        className="pl-2 bg-gray-100 outline-none flex-1"
+                        value={doctorToCreatePassword}
+                        onChange={e => setDoctorToCreatePassword(e.target.value)}
                         required
                         ></input>
                     </div>
