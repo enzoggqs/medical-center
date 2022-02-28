@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from "../../contexts/auth";
 
 const LoginPage = () => {
-    const { authenticated, secretaryLogin, doctorLogin } = useContext(AuthContext)
+    const { secretaryLogin, doctorLogin } = useContext(AuthContext)
 
     const { register } = useForm();
     const emailRef = useRef();
@@ -30,7 +30,6 @@ const LoginPage = () => {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center py-2 bg-gray-100">
             <div className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-            <p>{String(authenticated)}</p>
             <div className="bg-white rounded-2xl shadow-2xl flex w-2/3 max-w-4xl"> {/* Sign in as doctor */}
             <form onSubmit={handleSecretarySignIn} className="w-1/2 p-5">
               <div className="text-left font-bold">
@@ -42,7 +41,7 @@ const LoginPage = () => {
                   <div className="border-2 w-20 border-red-400 inline-block"></div>
                 </div>
                 <div className="flex flex-col items-center">
-                  <div className="bg-gray-100 w-64 p-2 flex items-center mb-3">
+                  <div className="rounded-full border-2 bg-gray-100 w-64 p-2 flex items-center mb-3">
                     <FaRegEnvelope className="text-gray-400 m-2"/>
                     <input 
                       {...register("secretaryEmail")}
@@ -56,7 +55,7 @@ const LoginPage = () => {
                       required
                     ></input>
                   </div>
-                  <div className="bg-gray-100 w-64 p-2 flex items-center mb-6">
+                  <div className="rounded-full border-2 bg-gray-100 w-64 p-2 flex items-center mb-6">
                     <MdLockOutline className="text-gray-400 m-2"/>
                     <input
                       {...register("secretaryPassword")}
@@ -81,18 +80,20 @@ const LoginPage = () => {
             <form onSubmit={handleDoctorSignIn} className="w-1/2 bg-red-400 text-white py-36 px-12 rounded-tr-2xl rounded-br-2xl"> {/* Sign in as secretary */}
               <h2 className="text-3xl font-bold mb-5">Acesso Doutores</h2>
               <div className="border-2 w-20 border-white inline-block mb-10"></div>
-              <div className="bg-gray-100 p-2 flex items-center mb-5">
-                  <FaRegEnvelope className="text-gray-400 m-2 inline-block"/>
-                  <input 
-                    {...register("doctorEmail")}
-                    type="email" 
-                    name="doctorEmail" 
-                    placeholder="Email" 
-                    className="bg-gray-100 outline-none flex-1 text-black"
-                    onChange={e => setDoctorEmail(e.target.value)}
-                    required             
-                  ></input>
-              </div>
+                <div className="flex flex-col items-center">
+                  <div className="rounded-full border-2 bg-gray-100 w-64 p-2 flex items-center mb-3">
+                    <FaRegEnvelope className="text-gray-400 m-2 inline-block"/>
+                    <input 
+                      {...register("doctorEmail")}
+                      type="email" 
+                      name="doctorEmail" 
+                      placeholder="Email" 
+                      className="bg-gray-100 outline-none flex-1 text-black"
+                      onChange={e => setDoctorEmail(e.target.value)}
+                      required             
+                    ></input>
+                  </div>
+                </div>
               <button 
                 type="submit"
                 className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-red-400"
