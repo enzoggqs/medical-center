@@ -15,6 +15,7 @@ model Doctor{
   email   String   @unique
   name String
   appointments Appointment[]
+  password String @default("Paciente123")
 }
 
 model Secretary{
@@ -28,5 +29,5 @@ model Appointment {
   id Int @id @default(autoincrement())
   date DateTime   @default(now())
   patientName String @default("Paciente123")
-  doctor Doctor @relation(fields: [doctorId], references: [id])
+  doctor Doctor @relation(fields: [doctorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
