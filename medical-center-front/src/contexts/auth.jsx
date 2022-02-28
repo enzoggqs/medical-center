@@ -39,8 +39,8 @@ export const AuthProvider = ({children}) => {
         navigate("/")
     }
 
-    const doctorLogin = async (email) => {
-        const response = await createDoctorSession(email);
+    const doctorLogin = async (email, password) => {
+        const response = await createDoctorSession(email, password);
 
         const loggedUser = response.data.doctorAlreadyExist;
         console.log(loggedUser)
