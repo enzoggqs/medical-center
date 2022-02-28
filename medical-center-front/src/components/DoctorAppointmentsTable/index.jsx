@@ -7,10 +7,10 @@ const DoctorAppointmentsTable = ({
         console.log(appointments)
     }, [])
     return (
-        <div className="w-1/2 bg-white text-red-400 py-5">
+        <div className="w-1/2 bg-white text-red-400 py-5 border-2 mt-10">
             <div className="py-5">
                 <div className="py-5">
-                    <h2 className="text-3xl font-bold text-red-400 mb-2">Minhas próximas consultas</h2>
+                    <h2 className="text-3xl font-bold text-red-400 mb-2 mt-auto">Minhas próximas consultas</h2>
                     <div className="border-2 w-20 border-red-400 inline-block"></div>
                 </div>
             </div>
