@@ -1,9 +1,13 @@
 const express = require("express")
+var cors = require('cors');
+
 const doctorsRoutes = require("./doctors.routes")
 const secretaryRoutes = require("./secretarys.routes")
 const authenticationRoute = require("./controllers/authController")
 
 const app = express();
+app.use(cors());
+
 
 app.use(express.json());
 app.use(doctorsRoutes);
