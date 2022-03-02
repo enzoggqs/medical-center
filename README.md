@@ -12,7 +12,7 @@
 
 <p style="text-align: justify;">&emsp;&emsp; 
 Medical center is a web app focused to attend medical clinics. Its objective is to facilitate the organization of the center's doctor's schedules. 
-besides the doctors as users, it will also be used by some secretarys, who can control multiple doctors' schedules.
+Besides the doctors as users, it will also be used by some secretarys, who can control multiple doctors' schedules.
 </p>
 
 ## 💻 Aplication
@@ -51,6 +51,15 @@ besides the doctors as users, it will also be used by some secretarys, who can c
 
 ### Installing and running
 
+#### Running Docker
+
+with [Docker](https://docs.docker.com/get-docker/) installed, run the commands:
+
+```bash
+# Create docker container
+$ docker-compose up -d
+```
+
 #### Running Backend
 
 ```bash
@@ -60,8 +69,17 @@ $ cd medical-center
 ```
 
 ```bash
-# Installing packages and running the development server
+# Installing packages
 $ npm install
+```
+
+```bash
+# Applying migrations
+$ npx prisma migrate dev
+```
+
+```bash
+# Running server
 $ npm run dev
 ```
 
